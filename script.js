@@ -1,5 +1,5 @@
 // Подключаемся к контракту
-const contractAddress = "0xf655eDaB42437DaCFA23a4a9b14b0105c954cdF8"; //Замените вашим контрактом
+const contractAddress = "0xfb059F4B09b7051818747D31A674D0daCB890Ef9"; //Замените вашим контрактом
 
 // Указываем ABI (Application Binary Interface) контракта
 const abi = [
@@ -32,10 +32,7 @@ const abi = [
 ];
 
 // Подключаемся к web3 провайдеру (метамаск)
-const provider = new ethers.providers.Web3Provider(window.ethereum, 97);
-
-let signer;
-let contract;
+const provider = new ethers.providers.Web3Provider(window.ethereum, 1337);
 
 //Запрашиваем аккаунты пользователя и подключаемся к первому аккаунту
 provider.send("eth_requestAccounts", []).then(() => {
@@ -60,3 +57,16 @@ async function getNote() {
     document.getElementById("result").innerText = note;
 }
 
+const qr = new QRious({
+    value: 'Bla-bla-Bla',
+    size: 200,
+    foreground: 'black',
+    background: 'white',
+    level: 'H'
+});
+
+window.addEventListener('load', () => {
+    const img = document.createElement('img');
+    img.src = qr.toDataURL();
+    document.getElementById('qr-container').appendChild(img);
+});

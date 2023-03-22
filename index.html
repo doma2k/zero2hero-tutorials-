@@ -10,9 +10,10 @@
 </head>
 
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
     <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
     <script src="script.js"></script>
-
+    
     <div>
         <h1>Note dApp</h1>
         <p>you can write notes and read notes from smart-contract</p>
@@ -22,8 +23,8 @@
         <button onclick="setNote()">Set Note</button>
         <button onclick="getNote()">Get Note</button>
         <p>my note: <span id="result"> </span></p>
+        <div id="qr-container"></div>
     </div>
 </body>
-
 
 </html>
