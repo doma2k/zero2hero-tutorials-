@@ -26,12 +26,11 @@ async function playGame(optionByPlayer, bnbValue) {
         return;
     }
     const tx = await contract.playGame(optionByPlayer, { value: etherValue });
-    console.log(`Transaction hash: ${tx.hash}`);
 
     const logsElement = document.getElementById("logs");
     contract.on("GamePlayed", (player, isWinner, details) => {
         const timestamp = new Date().toLocaleString();
-        const logMessage = `[${timestamp}] Player: ${player}\nIs winner: ${isWinner}\nDetails: ${details}\n\n`;
+        const logMessage = `[${timestamp}] ${tx.hash}\n Player: ${player}\nIs winner: ${isWinner}\nDetails: ${details}\n\n`;
         logsElement.innerText += logMessage;
     });
 }
