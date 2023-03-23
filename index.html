@@ -5,25 +5,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Web3-Champions</title>
     <link rel="stylesheet" href="style.css"/>
 </head>
 
 <body>
     <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
     <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
-    <script src="script.js"></script>
+    <script src="script.js" ></script>
     
     <div>
-        <h1>Note dApp</h1>
-        <p>you can write notes and read notes from smart-contract</p>
+        <h1>Rock Paper Scissors</h1>
+        <div id="min-bet-container">Minimum bet: </div>
         <br />
-        <label for="note"> Write note:</label>
-        <input type="text" id="note" />
-        <button onclick="setNote()">Set Note</button>
-        <button onclick="getNote()">Get Note</button>
-        <p>my note: <span id="result"> </span></p>
-        <div id="qr-container"></div>
+        <label for="bet">Bet (in BNB):</label>
+        <input type="text" id="bet" name="bet" required />
+        <span id="bet-error" style="color: red; display: none;">Please enter a bet amount</span>
+
+        <button onclick="playGame(0, document.getElementById('bet').value)">Rock</button>
+        <button onclick="playGame(1, document.getElementById('bet').value)">Paper</button>
+        <button onclick="playGame(2, document.getElementById('bet').value)">Scissors</button>
+        <br />
+        <br />
+        <!-- <div id="qr-container"></div> -->
+        <div id="logs"></div>
     </div>
 </body>
 

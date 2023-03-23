@@ -8,21 +8,17 @@ async function main() {
     const account = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
     // console.log(account)
 
-    const abi = fs.readFileSync("./Note_sol_Note.abi", "utf-8");
-    const bin = fs.readFileSync("./Note_sol_Note.bin", "utf-8");
+    const abi = fs.readFileSync("./game_sol_RockPaperScissors.abi", "utf-8");
+    const bin = fs.readFileSync("./game_sol_RockPaperScissors.bin", "utf-8");
 
     const contractFactory = new ethers.ContractFactory(abi, bin, account);
-    const contract = await contractFactory.deploy();
+    const contract = await contractFactory.deploy({
+        value: ethers.utils.parseEther("50")
+    });
     //console.log(contract);
     // const contractReceipt = await contract.deployTransaction.wait(1);
     // console.log(`Contract address ${contract.address}`);
 
-    let myNote = await contract.getNote();
-    console.log(`My first note: ${myNote}`);
-    const tx = await contract.setNote("Note from Dias");
-    await tx.wait(1);
-    myNote = await contract.getNote();
-    console.log(`My second request: ${myNote}`);
 }
 
 main()

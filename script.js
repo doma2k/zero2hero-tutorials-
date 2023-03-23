@@ -1,72 +1,61 @@
 // Подключаемся к контракту
-const contractAddress = "0xfb059F4B09b7051818747D31A674D0daCB890Ef9"; //Замените вашим контрактом
-
+const contractAddress = "0x1f4CE6555675101ca81ca79F68FE6A25D7d30a96"; //Замените вашим контрактом
 // Указываем ABI (Application Binary Interface) контракта
-const abi = [
-    {
-        inputs: [
-            {
-                internalType: "string",
-                name: "_note",
-                type: "string",
-            },
-        ],
-        name: "setNote",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [],
-        name: "getNote",
-        outputs: [
-            {
-                internalType: "string",
-                name: "",
-                type: "string",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-    },
-];
-
+const abi = [{ "inputs": [], "stateMutability": "payable", "type": "constructor" }, { "anonymous": false, "inputs": [{ "indexed": false, "internalType": "address", "name": "player", "type": "address" }, { "indexed": false, "internalType": "bool", "name": "isWinner", "type": "bool" }, { "indexed": false, "internalType": "string", "name": "details", "type": "string" }], "name": "GamePlayed", "type": "event" }, { "inputs": [], "name": "minBet", "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint8", "name": "_optionByPlayer", "type": "uint8" }], "name": "playGame", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "payable", "type": "function" }];
 // Подключаемся к web3 провайдеру (метамаск)
 const provider = new ethers.providers.Web3Provider(window.ethereum, 1337);
 
-//Запрашиваем аккаунты пользователя и подключаемся к первому аккаунту
+let contract;
+
 provider.send("eth_requestAccounts", []).then(() => {
     provider.listAccounts().then((accounts) => {
         signer = provider.getSigner(accounts[0]);
-        //Создаем объект контракта
         contract = new ethers.Contract(contractAddress, abi, signer);
         console.log(contract);
+        getMinBet();
     });
 });
 
-//Вызываем setNote() в смарт-контракте
-async function setNote() {
-    const note = document.getElementById("note").value;
-    const setNote = await contract.setNote(note);
+// Creating function to play game
+async function playGame(optionByPlayer, bnbValue) {
+    const minBet = await contract.minBet();
+    const betInput = document.getElementById("bet");
+    const etherValue = ethers.utils.parseEther(bnbValue); // convert BNB to wei
+    if (etherValue.lt(minBet)) {
+        console.log(`Minimum bet is ${minBet} wei`);
+        return;
+    }
+    const tx = await contract.playGame(optionByPlayer, { value: etherValue });
+    console.log(`Transaction hash: ${tx.hash}`);
+
+    const logsElement = document.getElementById("logs");
+    contract.on("GamePlayed", (player, isWinner, details) => {
+        const timestamp = new Date().toLocaleString();
+        const logMessage = `[${timestamp}] Player: ${player}\nIs winner: ${isWinner}\nDetails: ${details}\n\n`;
+        logsElement.innerText += logMessage;
+    });
 }
 
-//Вызываем getNote() в смарт-контракте и показываем пользователю
-async function getNote() {
-    const note = await contract.getNote();
-    console.log(getNote);
-    document.getElementById("result").innerText = note;
+// Get minBet 
+async function getMinBet() {
+    const minBetElement = document.getElementById('min-bet-container');
+    const minBet = await contract.minBet();
+    const minBetInEther = ethers.utils.formatEther(minBet);
+    const suffix = ' BNB'
+    minBetElement.textContent += minBetInEther.toString() +suffix;
 }
 
-const qr = new QRious({
-    value: 'Bla-bla-Bla',
-    size: 200,
-    foreground: 'black',
-    background: 'white',
-    level: 'H'
+document.addEventListener("DOMContentLoaded", function () {
+    // code that adds event listener goes here
+    const betInput = document.getElementById('bet');
+    const betError = document.getElementById('bet-error');
+
+    betInput.addEventListener('blur', () => {
+        if (!betInput.value) {
+            betError.style.display = 'block';
+        } else {
+            betError.style.display = 'none';
+        }
+    });
 });
 
-window.addEventListener('load', () => {
-    const img = document.createElement('img');
-    img.src = qr.toDataURL();
-    document.getElementById('qr-container').appendChild(img);
-});

@@ -1,14 +1,20 @@
-# zero2hero-tutorials-
-# Scissors, Rock, Paper Smart Contract
+# Rock Paper Scissors
 
-This project contains a Solidity smart contract that allows players to play a game of Scissors, Rock, Paper on the Ethereum blockchain.
+This is a simple Solidity contract for playing rock-paper-scissors game on Ethereum blockchain.
 
-## Installation
+## Features
 
-To install this project, clone the repository and install the necessary dependencies:
+- Play game by sending ether to the contract
+- Emit an event with the game details when the game is played
+- Minimum bet is set by the contract creator
+- Winning option is chosen randomly by the contract
 
-```bash
-git clone https://github.com/your-username/scissors-rock-paper.git
-cd scissors-rock-paper
+## Usage
+
+1. Install dependencies:
+
 npm install
+
+
+
 
