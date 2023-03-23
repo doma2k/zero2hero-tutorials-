@@ -27,6 +27,8 @@ async function playGame(optionByPlayer, bnbValue) {
     }
     const tx = await contract.playGame(optionByPlayer, { value: etherValue });
 
+    contract.removeAllListeners("GamePlayed");
+
     const logsElement = document.getElementById("logs");
     contract.on("GamePlayed", (player, isWinner, details) => {
         const timestamp = new Date().toLocaleString();
