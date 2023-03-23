@@ -1,9 +1,9 @@
 // Подключаемся к контракту
-const contractAddress = "0x1f4CE6555675101ca81ca79F68FE6A25D7d30a96"; //Замените вашим контрактом
+const contractAddress = "0x9a56598B9533a969BFD425311D750cc50BbF579a"; //Замените вашим контрактом
 // Указываем ABI (Application Binary Interface) контракта
 const abi = [{ "inputs": [], "stateMutability": "payable", "type": "constructor" }, { "anonymous": false, "inputs": [{ "indexed": false, "internalType": "address", "name": "player", "type": "address" }, { "indexed": false, "internalType": "bool", "name": "isWinner", "type": "bool" }, { "indexed": false, "internalType": "string", "name": "details", "type": "string" }], "name": "GamePlayed", "type": "event" }, { "inputs": [], "name": "minBet", "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint8", "name": "_optionByPlayer", "type": "uint8" }], "name": "playGame", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "payable", "type": "function" }];
 // Подключаемся к web3 провайдеру (метамаск)
-const provider = new ethers.providers.Web3Provider(window.ethereum, 1337);
+const provider = new ethers.providers.Web3Provider(window.ethereum, 97);
 
 let contract;
 
