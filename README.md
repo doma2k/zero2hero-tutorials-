@@ -9,12 +9,6 @@ This is a simple Solidity contract for playing rock-paper-scissors game on Ether
 - Minimum bet is set by the contract creator
 - Winning option is chosen randomly by the contract
 
-## Usage
-
-1. Install dependencies:
-
-npm install
-
 
 
 
